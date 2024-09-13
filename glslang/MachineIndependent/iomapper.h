@@ -36,6 +36,8 @@
 #ifndef _IOMAPPER_INCLUDED
 #define _IOMAPPER_INCLUDED
 
+#include "../Include/visibility.h"
+
 #include <cstdint>
 #include <unordered_map>
 #include <unordered_set>
@@ -50,7 +52,7 @@ namespace glslang {
 class TIntermediate;
 struct TVarEntryInfo;
 // Base class for shared TIoMapResolver services, used by several derivations.
-struct TDefaultIoResolverBase : public glslang::TIoMapResolver {
+struct GLSLANG_EXPORT TDefaultIoResolverBase : public glslang::TIoMapResolver {
 public:
     TDefaultIoResolverBase(const TIntermediate& intermediate);
     typedef std::vector<int> TSlotSet;
@@ -151,7 +153,7 @@ protected:
 };
 
 // Default I/O resolver for OpenGL
-struct TDefaultGlslIoResolver : public TDefaultIoResolverBase {
+struct GLSLANG_EXPORT TDefaultGlslIoResolver : public TDefaultIoResolverBase {
 public:
     typedef std::map<TString, int> TVarSlotMap;  // <resourceName, location/binding>
     typedef std::map<int, TVarSlotMap> TSlotMap; // <resourceKey, TVarSlotMap>
@@ -190,7 +192,7 @@ protected:
 typedef std::map<TString, TVarEntryInfo> TVarLiveMap;
 
 // I/O mapper
-class TIoMapper {
+class GLSLANG_EXPORT TIoMapper {
 public:
     TIoMapper() {}
     virtual ~TIoMapper() {}
@@ -200,7 +202,7 @@ public:
 };
 
 // I/O mapper for GLSL
-class TGlslIoMapper : public TIoMapper {
+class GLSLANG_EXPORT TGlslIoMapper : public TIoMapper {
 public:
     TGlslIoMapper();
     virtual ~TGlslIoMapper();

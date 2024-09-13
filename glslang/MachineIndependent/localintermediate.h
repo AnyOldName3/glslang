@@ -40,6 +40,7 @@
 #define _LOCAL_INTERMEDIATE_INCLUDED_
 
 #include "../Include/intermediate.h"
+#include "../Include/visibility.h"
 #include "../Public/ShaderLang.h"
 #include "Versions.h"
 
@@ -54,7 +55,7 @@ class TInfoSink;
 
 namespace glslang {
 
-struct TMatrixSelector {
+struct GLSLANG_EXPORT TMatrixSelector {
     int coord1;  // stay agnostic about column/row; this is parse order
     int coord2;
 };
@@ -98,7 +99,7 @@ private:
 // Used for call-graph algorithms for detecting recursion, missing bodies, and dead bodies.
 // A "call" is a pair: <caller, callee>.
 // There can be duplicates. General assumption is the list is small.
-struct TCall {
+struct GLSLANG_EXPORT TCall {
     TCall(const TString& pCaller, const TString& pCallee)
         : caller(pCaller), callee(pCallee), visited(false), currentPath(false), errorGiven(false) { }
     TString caller;
@@ -110,7 +111,7 @@ struct TCall {
 };
 
 // A generic 1-D range.
-struct TRange {
+struct GLSLANG_EXPORT TRange {
     TRange(int start, int last) : start(start), last(last) { }
     bool overlap(const TRange& rhs) const
     {
@@ -123,7 +124,7 @@ struct TRange {
 // An IO range is a 3-D rectangle; the set of (location, component, index) triples all lying
 // within the same location range, component range, and index value.  Locations don't alias unless
 // all other dimensions of their range overlap.
-struct TIoRange {
+struct GLSLANG_EXPORT TIoRange {
     TIoRange(TRange location, TRange component, TBasicType basicType, int index, bool centroid, bool smooth, bool flat, bool sample, bool patch)
         : location(location), component(component), basicType(basicType), index(index), centroid(centroid), smooth(smooth), flat(flat), sample(sample), patch(patch)
     {
@@ -145,7 +146,7 @@ struct TIoRange {
 
 // An offset range is a 2-D rectangle; the set of (binding, offset) pairs all lying
 // within the same binding and offset range.
-struct TOffsetRange {
+struct GLSLANG_EXPORT TOffsetRange {
     TOffsetRange(TRange binding, TRange offset)
         : binding(binding), offset(offset) { }
     bool overlap(const TOffsetRange& rhs) const
@@ -157,7 +158,7 @@ struct TOffsetRange {
 };
 
 // Things that need to be tracked per xfb buffer.
-struct TXfbBuffer {
+struct GLSLANG_EXPORT TXfbBuffer {
     TXfbBuffer() : stride(TQualifier::layoutXfbStrideEnd), implicitStride(0), contains64BitType(false),
                    contains32BitType(false), contains16BitType(false) { }
     std::vector<TRange> ranges;  // byte offsets that have already been assigned
@@ -176,7 +177,7 @@ struct TXfbBuffer {
 //   process arg0 arg1 arg2 ...
 //   process arg0 arg1 arg2 ...
 // where everything is textual, and there can be zero or more arguments
-class TProcesses {
+class GLSLANG_EXPORT TProcesses {
 public:
     TProcesses() {}
     ~TProcesses() {}
@@ -242,7 +243,7 @@ enum AstRefType {
     AstRefTypeLayout,      // Status set by layout decl
 };
 
-class TIdMaps {
+class GLSLANG_EXPORT TIdMaps {
 public:
     TMap<TString, long long>& operator[](long long i) { return maps[i]; }
     const TMap<TString, long long>& operator[](long long i) const { return maps[i]; }
@@ -250,7 +251,7 @@ private:
     TMap<TString, long long> maps[EsiCount];
 };
 
-class TNumericFeatures {
+class GLSLANG_EXPORT TNumericFeatures {
 public:
     TNumericFeatures() : features(0) { }
     TNumericFeatures(const TNumericFeatures&) = delete;
@@ -280,7 +281,7 @@ private:
 // operator =() before attempting to read with operator T() or operator ->().
 // Used to catch cases where fields are read before they have been assigned.
 template<typename T>
-class MustBeAssigned
+class GLSLANG_EXPORT MustBeAssigned
 {
 public:
     MustBeAssigned() = default;
@@ -296,7 +297,7 @@ private:
 //
 // Set of helper functions to help parse and build the tree.
 //
-class TIntermediate {
+class GLSLANG_EXPORT TIntermediate {
 public:
     explicit TIntermediate(EShLanguage l, int v = 0, EProfile p = ENoProfile) :
         language(l),
