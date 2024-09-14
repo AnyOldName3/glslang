@@ -38,6 +38,7 @@
 
 #include "../Public/ShaderLang.h"
 #include "../Include/Types.h"
+#include "../Include/visibility.h"
 
 #include <list>
 #include <set>
@@ -53,7 +54,7 @@ class TIntermAggregate;
 class TReflectionTraverser;
 
 // The full reflection database
-class TReflection {
+class GLSLANG_EXPORT TReflection {
 public:
     TReflection(EShReflectionOptions opts, EShLanguage first, EShLanguage last)
         : options(opts), firstStage(first), lastStage(last), badReflection(TObjectReflection::badReflection())
